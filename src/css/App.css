@@ -151,8 +151,9 @@ footer a{
   text-decoration: none;
 }
 
-.tweet{
+.icon{
   vertical-align: middle;
+font-size: 2rem;
 }
 
 .Nav{
