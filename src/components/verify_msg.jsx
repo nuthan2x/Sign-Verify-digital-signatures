@@ -53,7 +53,7 @@ const Verify = () => {
               <textarea id='r'  cols="70" rows="3" placeholder='message' name='message'></textarea>
               <textarea id='r' cols="70" rows="1" placeholder="signer's address" name='address'></textarea>
               <textarea id='r' cols="70" rows="4" placeholder='signature' name='signature'></textarea>
-              <button id='r' type="submit">Verify Signature</button>
+              <button id='r' type="submit" className='button'>Verify Signature</button>
           </form>
  
       </div>

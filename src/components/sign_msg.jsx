@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import React from 'react'
 import { useState } from 'react'
-
+import { FaCopy } from 'react-icons/fa'
 
 const signMessage = async ({seterror,message}) =>{
     !window.ethereum && alert("no ethereum wallet detected. Reccomended to install metamask browser extension")
@@ -22,8 +22,8 @@ const signMessage = async ({seterror,message}) =>{
     }
 
 }
-
-const Sign = () => {
+const sigg = []
+const Sign = (props) => {
 
   const [error, seterror] = useState(undefined);
   const [sig, setsig] = useState([]);
@@ -36,7 +36,10 @@ const Sign = () => {
     seterror();
 
     const sigdata = await signMessage({seterror,message : data.get("message")})
-    if(sigdata) {setsig([...sig , sigdata]) }
+    if(sigdata) {
+      setsig([...sig , sigdata]) ;
+      sigg.push(sigdata);
+     }
 
     } catch(error) {
       console.log(error);
@@ -44,7 +47,7 @@ const Sign = () => {
     
   }
 
- return (
+  return (
     <div className='signcomp'>
       <div className='compheaderdiv'>
       <span className='compheader'>Sign a message</span>
@@ -55,7 +58,7 @@ const Sign = () => {
 
             </textarea>
 
-            <button type="submit">
+            <button type="submit" className='button'>
                 Sign Message
             </button>
           </form>
@@ -72,10 +75,15 @@ const Sign = () => {
         {sig?.map( (sigdata,i) => {
            return (
             <div className='eachsign' key={i}>
-                <h2 key={sigdata.messagei}>message : <span className='address'>{sigdata.message}</span></h2>
-                <h2 key={sigdata.addrress}>signer   &nbsp;: <span className='address'>{sigdata.addrress}</span></h2>
+                <h2 key={sigdata.messagei}>message&nbsp;: <textarea  cols="45" rows="2" className='msgtextarea' readOnly value={sigdata.message}></textarea> 
+                  <button onClick={() => {navigator.clipboard.writeText(sigdata.message)}} className='copybutton'><FaCopy /></button>
+                </h2>
+                <h2 key={sigdata.addrress}>signer  &nbsp;: <span className='address'>{sigdata.addrress}</span>
+                 <button onClick={() => {navigator.clipboard.writeText(sigdata.addrress)}} className='copybutton'><FaCopy /></button>
+                </h2>
                 <h2 key={sigdata.sig}>
-                  signature : <textarea  id="i" cols="45" rows="4" readOnly value={sigdata.sig}></textarea>
+                  signature : <textarea  id="i" cols="42" rows="3" readOnly value={sigdata.sig}></textarea>
+                  <button onClick={() => {navigator.clipboard.writeText(sigdata.sig)}} className='copybutton'><FaCopy /></button>
                 </h2>
             </div>)
         })}
@@ -87,3 +95,4 @@ const Sign = () => {
 }
 
 export default Sign
+export {sigg} ; 
